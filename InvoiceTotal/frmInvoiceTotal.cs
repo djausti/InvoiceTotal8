@@ -16,18 +16,17 @@ namespace InvoiceTotal
 		{
 			InitializeComponent();
 		}
-
-        // TODO: declare class variables for array and list here
+        
+        decimal[] totals = new decimal[5];
+        int index = 0;
 
         private void btnCalculate_Click(object sender, EventArgs e)
 		{
             try
             {
-
                 if (txtSubtotal.Text == "")
                 {
-                    MessageBox.Show(
-                        "Subtotal is a required field.", "Entry Error");
+                    MessageBox.Show("Subtotal is a required field.", "Entry Error");
                 }
                 else
                 {
@@ -51,28 +50,37 @@ namespace InvoiceTotal
                         txtDiscountAmount.Text = discountAmount.ToString();
                         txtTotal.Text = invoiceTotal.ToString();
 
+                        totals[index] = invoiceTotal;
+                        index++;
                     }
                     else
                     {
-                        MessageBox.Show(
-                            "Subtotal must be greater than 0 and less than 10,000.", 
-                            "Entry Error");
+                        MessageBox.Show("Subtotal must be greater than 0 and less than 10,000.", "Entry Error");
                     }
                 }
             }
             catch (FormatException)
             {
-                MessageBox.Show(
-                    "Please enter a valid number for the Subtotal field.", 
-                    "Entry Error");
+                MessageBox.Show("Please enter a valid number for the Subtotal field.", "Entry Error");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                MessageBox.Show("Only 5 calculations can be shown.", "Entry Error");
             }
             txtSubtotal.Focus();
         }
 
 		private void btnExit_Click(object sender, EventArgs e)
 		{
-            // TODO: add code that displays dialog boxes here
-
+            string totalsString = "";
+            foreach (decimal total in totals)
+            {
+                if (total > 0)
+                {
+                    totalsString += total.ToString("c2") + "\n";
+                }
+            }
+            MessageBox.Show(totalsString, "Order Totals");
             this.Close();
 		}
 
