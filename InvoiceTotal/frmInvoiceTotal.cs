@@ -65,13 +65,14 @@ namespace InvoiceTotal
             }
             catch (IndexOutOfRangeException)
             {
-                MessageBox.Show("Only 5 calculations can be shown.", "Entry Error");
+                MessageBox.Show("Only 5 calculations can be shown after exit.", "Entry Error");
             }
             txtSubtotal.Focus();
         }
 
 		private void btnExit_Click(object sender, EventArgs e)
 		{
+            Array.Sort(totals);
             string totalsString = "";
             foreach (decimal total in totals)
             {
